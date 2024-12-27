@@ -138,8 +138,12 @@ public class Drive extends LinearOpMode {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -24 * gp2Deflator);
             extendTarget += (int) (Math.pow(gamepad2.right_stick_y, 3) * -120 * gp2Deflator);
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -180,6 +184,7 @@ public class Drive extends LinearOpMode {
             // ----------------------------
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             clawTarget = Math.max(armSubsystem.getExtenderPos() < 30 ? 0.4: 0, Math.min(1, clawTarget));
             clawWrist = Math.max(0, Math.min(1, clawWrist));
             clawSubsystem.setAnglePosition(clawTarget);
@@ -189,6 +194,9 @@ public class Drive extends LinearOpMode {
 
             angleTarget = armSubsystem.getAngleTarget();
             extendTarget = armSubsystem.getExtTarget();
+=======
+            update();
+>>>>>>> Stashed changes
 =======
             update();
 >>>>>>> Stashed changes
