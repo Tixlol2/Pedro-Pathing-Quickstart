@@ -9,7 +9,7 @@ public class clawSubsystem extends SubsystemBase {
     public final Servo angleOfClaw;
     public final Servo driverOfClaw;
     public final Servo wristOfClaw;
-    //TODO: Figure out what these values are
+
     public final double open = 0;
     public final double closed = 1;
 
@@ -19,6 +19,13 @@ public class clawSubsystem extends SubsystemBase {
         wristOfClaw = hMap.get(Servo.class, wristName);
         angleOfClaw = hMap.get(Servo.class, angleName);
         driverOfClaw = hMap.get(Servo.class, openCloseName);
+    }
+
+    public clawSubsystem(final HardwareMap hMap){
+//"clawAngle", "clawDriver", "clawWrist"
+        wristOfClaw = hMap.get(Servo.class, "clawAngle");
+        angleOfClaw = hMap.get(Servo.class, "clawWrist");
+        driverOfClaw = hMap.get(Servo.class, "clawDriver");
     }
 
     public void open(){

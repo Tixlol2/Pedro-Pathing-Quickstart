@@ -140,7 +140,7 @@ public class Drive extends LinearOpMode {
                 extendTarget = armSubsystem.getExtTarget();
             }
 
-            angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -16 * gp2Deflator);
+            angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -24 * gp2Deflator);
             extendTarget += (int) (Math.pow(gamepad2.right_stick_y, 3) * -120 * gp2Deflator);
 
 
@@ -187,11 +187,13 @@ public class Drive extends LinearOpMode {
             clawSubsystem.setAnglePosition(clawTarget);
             clawSubsystem.setWristPosition(clawWrist);
             follower.updatePose();
-            follower.setTeleOpMovementVectors(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, true);
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
 
             angleTarget = armSubsystem.getAngleTarget();
             extendTarget = armSubsystem.getExtTarget();
 
+
+            follower.update();
             telemetry.addLine("Lock In 🔥 🔥 🔥");
             telemetry.addLine("Improvement Is The First Step to Success");
             telemetry.update();
