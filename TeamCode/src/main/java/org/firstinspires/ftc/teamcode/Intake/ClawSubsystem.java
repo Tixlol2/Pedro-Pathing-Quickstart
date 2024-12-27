@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawSubsystem extends SubsystemBase {
 
-    public final Servo angleOfClaw;
-    public final Servo driverOfClaw;
-    public final Servo wristOfClaw;
+    public static Servo angleOfClaw = null;
+    public static Servo driverOfClaw = null;
+    public static Servo wristOfClaw = null;
 
-    public final double open = 0;
+    public static final double open = 0;
     public final double closed = 1;
 
 
@@ -21,30 +21,21 @@ public class ClawSubsystem extends SubsystemBase {
         driverOfClaw = hMap.get(Servo.class, openCloseName);
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    public clawSubsystem(final HardwareMap hMap){
+
+    public ClawSubsystem(final HardwareMap hMap){
 //"clawAngle", "clawDriver", "clawWrist"
         wristOfClaw = hMap.get(Servo.class, "clawAngle");
         angleOfClaw = hMap.get(Servo.class, "clawWrist");
         driverOfClaw = hMap.get(Servo.class, "clawDriver");
     }
 
-    public void open(){
-=======
     public static void open(){
->>>>>>> Stashed changes
-=======
-    public static void open(){
->>>>>>> Stashed changes
-=======
-    public static void open(){
->>>>>>> Stashed changes
+
+
         driverOfClaw.setPosition(open);
     }
 
-    public void close(){
+    public static void close(){
         driverOfClaw.setPosition(closed);
     }
     //Using a dorect connection, this should hold up

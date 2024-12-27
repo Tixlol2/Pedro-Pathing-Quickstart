@@ -84,7 +84,7 @@ public class Drive extends LinearOpMode {
             }
             //Testing clawSubsystem
             if (gamepad2.b) {
-                clawSubsystem.close();
+                ClawSubsystem.close();
             } else if (gamepad2.a) {
                 ClawSubsystem.open();
             }
@@ -108,48 +108,12 @@ public class Drive extends LinearOpMode {
             // Automations //
             /////////////////
 
-            if (gamepad2.dpad_left) {
-                ArmSubsystem.setPos(46,90);
-                ClawSubsystem.setAnglePosition(0.5);
-                ClawSubsystem.setWristPosition(0.5);
-                angleTarget = ArmSubsystem.getAngleTarget();
-                extendTarget = ArmSubsystem.getExtTarget();
-//                wait(500);
-//                clawSubsystem.open();
-//                wait(100);
-//                clawSubsystem.close();
-//                armSubsystem.setPos(0, 0);
-//                clawSubsystem.setAnglePosition(0);
-//                clawSubsystem.setWristPosition(0);
-            //
-            } else if (gamepad2.dpad_down) {
-                ArmSubsystem.setPos(22,0);
-                clawZ = 0;
-                ClawSubsystem.setWristPosition(0.5);
-                ClawSubsystem.open();
-                angleTarget = ArmSubsystem.getAngleTarget();
-                extendTarget = ArmSubsystem.getExtTarget();
-            //Prepare to score specimen
-            } else if (gamepad2.left_stick_button) {
-                ArmSubsystem.setPos(0,45);
-                angleTarget = ArmSubsystem.getAngleTarget();
-                extendTarget = ArmSubsystem.getExtTarget();
-            }
+            if (gamepad2.dpad_left) highbasket();
+              else //Prepare to score specimen
+                if (gamepad2.dpad_down) picking();
+                else if (gamepad2.left_stick_button) highchamber();
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -24 * gp2Deflator);
-            extendTarget += (int) (Math.pow(gamepad2.right_stick_y, 3) * -120 * gp2Deflator);
-=======
 
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
 
 
             // ----------------------------
@@ -182,27 +146,11 @@ public class Drive extends LinearOpMode {
             // ----------------------------
             // Updaters
             // ----------------------------
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            clawTarget = Math.max(armSubsystem.getExtenderPos() < 30 ? 0.4: 0, Math.min(1, clawTarget));
-            clawWrist = Math.max(0, Math.min(1, clawWrist));
-            clawSubsystem.setAnglePosition(clawTarget);
-            clawSubsystem.setWristPosition(clawWrist);
-            follower.updatePose();
-            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
 
-            angleTarget = armSubsystem.getAngleTarget();
-            extendTarget = armSubsystem.getExtTarget();
-=======
             update();
->>>>>>> Stashed changes
-=======
-            update();
->>>>>>> Stashed changes
-=======
-            update();
->>>>>>> Stashed changes
+
+
+
 
 
             follower.update();
@@ -226,6 +174,32 @@ public class Drive extends LinearOpMode {
         follower.updatePose();
         follower.setTeleOpMovementVectors(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, true);
 
+        angleTarget = ArmSubsystem.getAngleTarget();
+        extendTarget = ArmSubsystem.getExtTarget();
+    }
+    private void highbasket() {
+        ArmSubsystem.setPos(46,90);
+        ClawSubsystem.setAnglePosition(0.5);
+        ClawSubsystem.setWristPosition(0.5);
+        angleTarget = ArmSubsystem.getAngleTarget();
+        extendTarget = ArmSubsystem.getExtTarget();
+        ClawSubsystem.open();
+        ClawSubsystem.close();
+        ArmSubsystem.setPos(0, 0);
+        ClawSubsystem.setAnglePosition(0);
+        ClawSubsystem.setWristPosition(0);
+    }
+    private void highchamber() {
+        ArmSubsystem.setPos(0,45);
+        angleTarget = ArmSubsystem.getAngleTarget();
+        extendTarget = ArmSubsystem.getExtTarget();
+    }
+
+    private void picking() {
+        ArmSubsystem.setPos(22,0);
+        clawZ = 0;
+        ClawSubsystem.setWristPosition(0.5);
+        ClawSubsystem.open();
         angleTarget = ArmSubsystem.getAngleTarget();
         extendTarget = ArmSubsystem.getExtTarget();
     }
