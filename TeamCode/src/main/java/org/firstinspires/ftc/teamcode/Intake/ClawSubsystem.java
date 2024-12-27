@@ -11,7 +11,7 @@ public class ClawSubsystem extends SubsystemBase {
     public static Servo wristOfClaw = null;
 
     public static final double open = 0;
-    public final double closed = 1;
+    public static final double closed = 1;
 
 
     //hMap is understandable, name is the name of the servo used
