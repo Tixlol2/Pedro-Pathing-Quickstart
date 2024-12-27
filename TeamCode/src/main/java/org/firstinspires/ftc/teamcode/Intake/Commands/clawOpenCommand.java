@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.Intake.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Intake.clawSubsystem;
+import org.firstinspires.ftc.teamcode.Intake.ClawSubsystem;
 
 public class clawOpenCommand extends CommandBase {
 
-    private final clawSubsystem m_clawSubsystem;
+    private final ClawSubsystem m_clawSubsystem;
 
-    public clawOpenCommand(clawSubsystem subsystem){
+    public clawOpenCommand(ClawSubsystem subsystem){
 
         m_clawSubsystem = subsystem;
 

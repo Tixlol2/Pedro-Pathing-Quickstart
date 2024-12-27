@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Stage1.armSubsystem;
+import org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem;
 @Disabled
 @Config
 @TeleOp
@@ -43,7 +43,7 @@ public class armSubclassTesting extends LinearOpMode {
         waitForStart();
 
 
-        armSubsystem armSubsystem = new armSubsystem(hardwareMap, "armExtendUp", "armExtendDown", "armAngleLeft", "armAngleRight");
+        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, "armExtendUp", "armExtendDown", "armAngleLeft", "armAngleRight");
         //armPIDFCommand armPIDFCommand = new armPIDFCommand(armSubsystem, 0, 0);
 
         //armSubsystem.setDefaultCommand(armPIDFCommand);
