@@ -22,6 +22,7 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public clawSubsystem(final HardwareMap hMap){
 //"clawAngle", "clawDriver", "clawWrist"
         wristOfClaw = hMap.get(Servo.class, "clawAngle");
@@ -30,6 +31,9 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
     public void open(){
+=======
+    public static void open(){
+>>>>>>> Stashed changes
 =======
     public static void open(){
 >>>>>>> Stashed changes
