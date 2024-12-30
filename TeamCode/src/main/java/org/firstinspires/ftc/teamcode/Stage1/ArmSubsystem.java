@@ -10,13 +10,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class armSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase {
 
     //Motor used to change the angle of the arm
-    private final DcMotorEx extenderMotorUp;
-    private final DcMotorEx extenderMotorDown;
-    private final DcMotorEx angleMotorLeft;
-    private final DcMotorEx angleMotorRight;
+    private static DcMotorEx extenderMotorUp = null;
+    private static DcMotorEx extenderMotorDown = null;
+    private static DcMotorEx angleMotorLeft = null;
+    private static DcMotorEx angleMotorRight = null;
 
 
 
@@ -44,8 +44,8 @@ public class armSubsystem extends SubsystemBase {
 
     private static int anglePos;
     private static int angleTarget;
-    private int extPos;
-    private int extTarget;
+    private static int extPos;
+    private static int extTarget;
 
     private static final int angleMax = 800;
     private static final int angleMin = 10;
@@ -58,7 +58,7 @@ public class armSubsystem extends SubsystemBase {
 
 
 
-    public armSubsystem(final HardwareMap hmap, final String extensionLeft, final String extensionRight, final String angleUp, final String angleDown){
+    public ArmSubsystem(final HardwareMap hmap, final String extensionLeft, final String extensionRight, final String angleUp, final String angleDown){
         extenderMotorUp = hmap.get(DcMotorEx.class, extensionLeft);
         angleMotorLeft = hmap.get(DcMotorEx.class, angleUp);
 
@@ -83,7 +83,7 @@ public class armSubsystem extends SubsystemBase {
 
     }
 
-    public armSubsystem(final HardwareMap hmap,final String extensionUp, final String extensionDown, final String angleLeft, final String angleRight, final double pAngle, final double iAngle, final double dAngle, final double fAngle, final double pExtend, final double iExtend, final double dExtend){
+    public ArmSubsystem(final HardwareMap hmap, final String extensionUp, final String extensionDown, final String angleLeft, final String angleRight, final double pAngle, final double iAngle, final double dAngle, final double fAngle, final double pExtend, final double iExtend, final double dExtend){
         extenderMotorUp = hmap.get(DcMotorEx.class, extensionUp);
         angleMotorLeft = hmap.get(DcMotorEx.class, angleLeft);
 
@@ -113,37 +113,37 @@ public class armSubsystem extends SubsystemBase {
     // ----------------
     // Setters
     // ----------------
-    public void setPos(Vector2d armPos) {
+    public static void setPos(Vector2d armPos) {
         angleTarget = (int) (Math.toDegrees(Math.atan(armPos.getY()/armPos.getX())) * ticks_in_degree);
         extTarget = (int) ((Math.sqrt(armPos.getX()*armPos.getX() + armPos.getY()*armPos.getY()) -18)* ticks_in_inch);
     }
-    public void setPos(int ext, int angle) {
+    public static void setPos(int ext, int angle) {
         angleTarget = (int) (angle * ticks_in_degree);
         extTarget = (int) ((ext -18)* ticks_in_inch);
     }
     // ----------------
     // Getters
     // ----------------
-    public int getAngleTarget(){return angleTarget;}
+    public static int getAngleTarget(){return angleTarget;}
     public double getAngleTargetDG(){return (angleTarget / ticks_in_degree);}
 
-    public int getAnglePos(){return angleMotorLeft.getCurrentPosition();}
-    public double getAnglePosDEG(){return (angleMotorLeft.getCurrentPosition() / ticks_in_degree);}
+    public static int getAnglePos(){return angleMotorLeft.getCurrentPosition();}
+    public static double getAnglePosDEG(){return (angleMotorLeft.getCurrentPosition() / ticks_in_degree);}
 
-    public int getExtTarget(){return extTarget;}
+    public static int getExtTarget(){return extTarget;}
     public double getExtTargetIN(){return (extTarget / ticks_in_inch);}
 
-    public int getExtenderPos(){return extenderMotorUp.getCurrentPosition();}
-    public double getExtenderPosIN(){return (extenderMotorUp.getCurrentPosition() / ticks_in_inch);}
+    public static int getExtenderPos(){return extenderMotorUp.getCurrentPosition();}
+    public static double getExtenderPosIN(){return (extenderMotorUp.getCurrentPosition() / ticks_in_inch);}
 
-    public double getX(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18)* Math.cos(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
-    public double getY(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18) * Math.sin(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
+    public static double getX(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18)* Math.cos(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
+    public static double getY(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18) * Math.sin(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
     // ----------------
     // Calculations
     // ----------------
 
 
-    public void update(int setAngleTarget, int setExtendTarget) {
+    public static void update(int setAngleTarget, int setExtendTarget) {
         angleTarget = setAngleTarget;
         extTarget = setExtendTarget;
         double anglePower;
@@ -180,7 +180,7 @@ public class armSubsystem extends SubsystemBase {
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
     }
-    public void update() {
+    public static void update() {
         double anglePower;
         double extendPower;
         double anglefeedForward;

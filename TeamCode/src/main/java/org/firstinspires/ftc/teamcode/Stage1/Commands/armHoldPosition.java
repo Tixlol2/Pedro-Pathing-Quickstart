@@ -4,12 +4,12 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
 
-import org.firstinspires.ftc.teamcode.Stage1.armSubsystem;
+import org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem;
 
 @Config
 public class armHoldPosition extends CommandBase {
 
-        private final armSubsystem m_armSubsystem;
+        private final ArmSubsystem m_armSubsystem;
 
         private PIDController pidFController;
 
@@ -40,7 +40,7 @@ public class armHoldPosition extends CommandBase {
         private double powerExtension;
         private double PIDFpowerExtend;
 
-        public armHoldPosition(armSubsystem subsystem) {
+        public armHoldPosition(ArmSubsystem subsystem) {
             m_armSubsystem = subsystem;
             addRequirements(m_armSubsystem);
             pidFController = new PIDController(pAngle, iAngle, dAngle);
