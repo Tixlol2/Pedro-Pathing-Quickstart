@@ -138,6 +138,8 @@ public class Drive extends LinearOpMode {
             telemetry.addData("X: ", ArmSubsystem.getX());
             telemetry.addData("Y: ", ArmSubsystem.getY());
 
+            telemetry.addData("Claw Wrist: ", ClawSubsystem.angleOfClaw.getPosition());
+
 
             telemetry.addLine("Don't Crash!");
             telemetry.addData("Driver Centric?", driveCentric);

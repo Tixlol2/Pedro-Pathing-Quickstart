@@ -122,6 +122,8 @@ public class StrafeVelocityTuner extends OpMode {
      */
     @Override
     public void loop() {
+        telemetryA.addLine("Distance Traveled: " + poseUpdater.getPose().getY());
+
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -160,5 +162,6 @@ public class StrafeVelocityTuner extends OpMode {
             telemetryA.addData("strafe velocity:", average);
             telemetryA.update();
         }
+        telemetryA.update();
     }
 }

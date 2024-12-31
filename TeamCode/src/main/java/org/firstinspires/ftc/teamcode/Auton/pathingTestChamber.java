@@ -20,7 +20,7 @@ public class pathingTestChamber extends OpMode {
     private int pathState;
 
     PathChain startToChamber, pickupSample1, goToObsZone1, pickupSample2, goToObsZone2, pickupSample3, goToObsZone3, park, sample3ToPickup, pickupToScore, scoreToPickup;
-    autonPosesPedro autonPoses;
+    autonPosesPedro autonPoses = new autonPosesPedro();
 
     public void buildPaths() {
 

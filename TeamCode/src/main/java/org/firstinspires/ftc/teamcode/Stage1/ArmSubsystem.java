@@ -140,9 +140,9 @@ public class ArmSubsystem extends SubsystemBase {
         angleTarget = (int) (Math.toDegrees(Math.atan(armPos.getY()/armPos.getX())) * ticks_in_degree);
         extTarget = (int) ((Math.sqrt(armPos.getX()*armPos.getX() + armPos.getY()*armPos.getY()) -18)* ticks_in_inch);
     }
-    public static void setPos(int ext, int angle) {
+    public static void setPos(double ext, double angle) {
         angleTarget = (int) (angle * ticks_in_degree);
-        extTarget = (int) ((ext -18)* ticks_in_inch);
+        extTarget = (int) ((ext) * ticks_in_inch);
     }
     // ----------------
     // Getters
