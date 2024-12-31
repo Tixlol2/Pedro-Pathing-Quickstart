@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Auton;
 
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.Intake.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
@@ -19,6 +22,9 @@ public class pathingTestBasket extends OpMode {
     Follower follower;
     private Timer opmodeTimer, pathTimer;
     private int pathState;
+    ArmSubsystem armSubsystem;
+    ClawSubsystem clawSubsystem;
+    CommandScheduler commandScheduler;
 
     PathChain startToBasket, pickupSample1, returnToBasket1, pickupSample2, returnToBasket2, pickupSample3, returnToBasket3, park;
     autonPosesPedro autonPoses;
@@ -141,10 +147,17 @@ public class pathingTestBasket extends OpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
 
+        armSubsystem = new ArmSubsystem(hardwareMap);
+        clawSubsystem = new ClawSubsystem(hardwareMap);
+        commandScheduler = CommandScheduler.getInstance();
+
         opmodeTimer.resetTimer();
 
         follower = new Follower(hardwareMap);
         follower.setStartingPose(autonPoses.startPoseBasket);
+
+        ArmSubsystem.setPos(20, 0);
+
 
         buildPaths();
     }
@@ -152,6 +165,9 @@ public class pathingTestBasket extends OpMode {
     @Override
     public void init_loop(){
         //Looped
+        ClawSubsystem.close();
+        ArmSubsystem.update();
+        commandScheduler.run();
 
     }
 
@@ -160,7 +176,8 @@ public class pathingTestBasket extends OpMode {
         // These loop the movements of the robot
         follower.update();
         autonomousPathUpdate();
-
+        armSubsystem.update();
+        commandScheduler.run();
         // Feedback to Driver Hub
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());

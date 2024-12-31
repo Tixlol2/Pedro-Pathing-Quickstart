@@ -55,7 +55,30 @@ public class ArmSubsystem extends SubsystemBase {
     private static final PIDController angleController = new PIDController(pAngle, iAngle, dAngle);
     private static final PIDController extendController = new PIDController(pExtend, iExtend, dExtend);
 
+    public ArmSubsystem(final HardwareMap hMap){
 
+        extenderMotorUp = hMap.get(DcMotorEx.class, "armExtendUp");
+        angleMotorLeft = hMap.get(DcMotorEx.class,  "armAngleLeft");
+
+        extenderMotorDown = hMap.get(DcMotorEx.class, "armExtendDown");
+        angleMotorRight = hMap.get(DcMotorEx.class, "armAngleRight");
+
+        extenderMotorUp.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        angleMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        extenderMotorDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        angleMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        angleMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        extenderMotorDown.setDirection(DcMotorSimple.Direction.REVERSE);
+        extenderMotorUp.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+
+        angleController.setPID(pAngle, iAngle, dAngle);
+        extendController.setPID(pExtend, iExtend, dExtend);
+
+    }
 
 
     public ArmSubsystem(final HardwareMap hmap, final String extensionLeft, final String extensionRight, final String angleUp, final String angleDown){
