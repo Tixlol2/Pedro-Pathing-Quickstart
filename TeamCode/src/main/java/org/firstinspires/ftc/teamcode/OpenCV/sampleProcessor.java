@@ -20,6 +20,15 @@ public class sampleProcessor implements VisionProcessor {
 
     private int width;
     private int height;
+    private Position position;
+
+    enum Position {
+        LEFT,
+        RIGHT,
+        MIDDLE,
+        NOT_FOUND
+    }
+
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
@@ -71,13 +80,16 @@ public class sampleProcessor implements VisionProcessor {
         // cover left and/or right side of the image
         double left_x = 0.25 * width;
         double right_x = 0.75 * width;
-        boolean left = false; // true if sample found on the left side
-        boolean right = false; // "" "" on the right side
+
         for (int i = 0; i != boundRect.length; i++) {
             if (boundRect[i].x < left_x)
-                left = true;
+                position = Position.LEFT;
             if (boundRect[i].x + boundRect[i].width > right_x)
-                right = true;
+                position = Position.RIGHT;
+            if(boundRect[i].x > right_x && boundRect[i].x < left_x){
+                position = Position.MIDDLE;
+            }
+            else{position = Position.NOT_FOUND;}
 
             // draw red bounding rectangles on mat
             // the mat has been converted to HSV so we need to use HSV as well
@@ -96,5 +108,9 @@ public class sampleProcessor implements VisionProcessor {
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
 
+    }
+
+    public Position getPosition(){
+        return position;
     }
 }

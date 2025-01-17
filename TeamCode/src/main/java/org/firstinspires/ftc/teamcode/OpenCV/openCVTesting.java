@@ -62,6 +62,7 @@ public class openCVTesting extends LinearOpMode {
             detections = aprilTagProcessor.getDetections();
             telemetry.addData("Number of Tags ", detections.size());
             telemetry.addData("Camera State", visionPortal.getCameraState());
+            telemetry.addData("Position of Sample", sampleProcessor.getPosition());
             telemetry.addLine();
             for (AprilTagDetection detection : detections) {
                 if(detection.metadata != null) {
