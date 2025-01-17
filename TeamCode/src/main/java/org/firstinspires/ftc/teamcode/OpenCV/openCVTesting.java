@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.OpenCV;
 
 import android.util.Size;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.google.blocks.ftcrobotcontroller.util.CurrentGame;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -14,13 +16,14 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
 
-
+@TeleOp
 public class openCVTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
         //init once
         ArrayList<AprilTagDetection> detections;
+        telemetry = FtcDashboard.getInstance().getTelemetry();
 
         sampleProcessor sampleProcessor = new sampleProcessor();
 
@@ -45,7 +48,7 @@ public class openCVTesting extends LinearOpMode {
                 .addProcessor(aprilTagProcessor)
                 .addProcessor(sampleProcessor)
                 //Set camera resolution
-                .setCameraResolution(new Size(1280, 720))
+                .setCameraResolution(new Size(640, 480))
                 //No idea
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 //Enable streaming to Dhub and FTC Dashboard (?)
@@ -60,6 +63,7 @@ public class openCVTesting extends LinearOpMode {
 
 
             detections = aprilTagProcessor.getDetections();
+
             telemetry.addData("Number of Tags ", detections.size());
             telemetry.addData("Camera State", visionPortal.getCameraState());
             telemetry.addData("Position of Sample", sampleProcessor.getPosition());

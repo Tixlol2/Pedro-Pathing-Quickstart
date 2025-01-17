@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.OpenCV;
 import android.graphics.Canvas;
 
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -15,8 +17,18 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Config
 public class sampleProcessor implements VisionProcessor {
+
+    public static Scalar lowYellow = new Scalar(20, 100, 100);
+    public static Scalar highYellow = new Scalar(30, 255, 255);
+    public static Scalar lowBlue = new Scalar(20, 100, 100);
+    public static Scalar highBlue = new Scalar(30, 255, 255);
+    public static Scalar lowRed1 = new Scalar(20, 100, 100);
+    public static Scalar highRed1 = new Scalar(30, 255, 255);
+    public static Scalar lowRed2 = new Scalar(20, 100, 100);
+    public static Scalar highRed2 = new Scalar(30, 255, 255);
+    public static Color color = Color.RED;
 
     private int width;
     private int height;
@@ -27,6 +39,14 @@ public class sampleProcessor implements VisionProcessor {
         RIGHT,
         MIDDLE,
         NOT_FOUND
+    }
+
+    enum Color {
+        RED,
+        BLUE,
+        YELLOW
+
+
     }
 
 
@@ -50,13 +70,18 @@ public class sampleProcessor implements VisionProcessor {
         //This is the HSV values we are comparing our image against
         //This is used to find the regions that we want
         //Currently Yellow
-        Scalar lowYellow = new Scalar(20, 100, 100);
-        Scalar highYellow = new Scalar(30, 255, 255);
+
         //Prepares a new Mat that will hold our thresholded image
         Mat mask = new Mat();
 
         //Does all the processing and stores it in the mask Mat
-        Core.inRange(mat, lowYellow, highYellow, mask);
+        if (color == Color.YELLOW){
+            Core.inRange(mat, lowYellow, highYellow, mask);
+        } else if (color == Color.RED) {
+            Core.inRange(mat, lowRed1, highRed1, mask);
+        } else {
+            Core.inRange(mat, lowBlue, highBlue, mask);
+        }
 
         Mat edges = new Mat();
         Imgproc.Canny(mask, edges, 100, 300);
