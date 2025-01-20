@@ -3,11 +3,18 @@ package org.firstinspires.ftc.teamcode.OpenCV;
 import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.google.blocks.ftcrobotcontroller.util.CurrentGame;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -17,15 +24,24 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.ArrayList;
 
 @TeleOp
+@Config
 public class openCVTesting extends LinearOpMode {
+
+
+    Follower follower;
+    ArrayList<AprilTagDetection> detections;
+    public static int targetTagID = 0;
+    int closestTagID;
+    Pose target;
+    sampleProcessor sampleProcessor = new sampleProcessor();
+    VisionPortal visionPortal;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         //init once
-        ArrayList<AprilTagDetection> detections;
-        telemetry = FtcDashboard.getInstance().getTelemetry();
 
-        sampleProcessor sampleProcessor = new sampleProcessor();
+        telemetry = FtcDashboard.getInstance().getTelemetry();
 
         AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
                 //What tags to look for
@@ -40,7 +56,6 @@ public class openCVTesting extends LinearOpMode {
                 .setDrawCubeProjection(true)
                 //Finish
                 .build();
-        VisionPortal visionPortal;
         visionPortal = new VisionPortal.Builder()
                 //Get camera from hMap
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -57,18 +72,31 @@ public class openCVTesting extends LinearOpMode {
                 .setAutoStopLiveView(true)
                 //finish
                 .build();
+        follower = new Follower(hardwareMap);
 
         while (!isStarted()) {
             //Init Loop
+            telemetry.addData("Camera State", visionPortal.getCameraState());
+            telemetry.addLine("Should only run the OpMode when this ^^^");
+            telemetry.addLine("Says 'Streaming' or else the entire thing will break");
+            telemetry.update();
+        }
 
-
+        while(isStarted() && !isStopRequested()){
+            //Main loop
+            double closestRange = 1000;
             detections = aprilTagProcessor.getDetections();
+
 
             telemetry.addData("Number of Tags ", detections.size());
             telemetry.addData("Camera State", visionPortal.getCameraState());
             telemetry.addData("Position of Sample", sampleProcessor.getPosition());
             telemetry.addLine();
             for (AprilTagDetection detection : detections) {
+                if (closestRange > (Math.abs(detection.ftcPose.range))){
+                    closestRange = Math.abs(detection.ftcPose.range);
+                    closestTagID = detection.id;
+                }
                 if(detection.metadata != null) {
                     telemetry.addData("Tag ID ", detection.id);
                     telemetry.addData("X Offset ", detection.ftcPose.x);
@@ -79,18 +107,18 @@ public class openCVTesting extends LinearOpMode {
                     telemetry.addData("Roll Offset ", detection.ftcPose.roll);
                     telemetry.addData("Yaw Offset ", detection.ftcPose.yaw);
                     telemetry.addLine();
+                    telemetry.addData("Range ", detection.ftcPose.range);
+                    if(detection.id == closestTagID){
+                        target = new Pose(detection.ftcPose.x, detection.ftcPose.y);
+                        target.add(new Pose(0, 2));
+                        follower.followPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(target))));
+
+                    }
                 }
             }
 
+            follower.updatePose();
             telemetry.update();
-
-
-
-        }
-
-        while(isStarted() && !isStopRequested()){
-            //Main loop
-
 
 
 
@@ -99,4 +127,5 @@ public class openCVTesting extends LinearOpMode {
 
 
     }
+
 }
