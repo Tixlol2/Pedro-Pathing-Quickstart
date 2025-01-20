@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Auton;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -91,49 +93,49 @@ public class pathingTestBasket extends OpMode {
                 break;
             case 2:
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup1Basket heading */
-                if(follower.getPose().getHeading() - Math.toRadians(3) > autonPoses.samplePickup1Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) < autonPoses.samplePickup1Basket.getHeading()) {
+                if(follower.getPose().getHeading() - Math.toRadians(10) < autonPoses.samplePickup1Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(10) > autonPoses.samplePickup1Basket.getHeading()) {
                     ClawSubsystem.setWristPosition(.35);
-                    ArmSubsystem.setPos(10.833, 0);
+                    ArmSubsystem.setPos(10.833, 10);
                     follower.followPath(returnToBasket1,true);
                     setPathState(3);
 
                 }
                 break;
-//            case 3:
-//                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
-//                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
-//                    follower.followPath(pickupSample2,true);
-//                    setPathState(4);
-//                }
-//                break;
-//            case 4:
-//                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup2Basket heading */
-//                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup2Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup2Basket.getHeading()) {
-//                    follower.followPath(returnToBasket2,true);
-//                    setPathState(5);
-//                }
-//                break;
-//            case 5:
-//                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
-//                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
-//                    follower.followPath(pickupSample3,true);
-//                    setPathState(6);
-//                }
-//                break;
-//            case 6:
-//                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup3Basket heading */
-//                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup3Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup3Basket.getHeading()) {
-//                    follower.followPath(returnToBasket3,true);
-//                    setPathState(7);
-//                }
-//                break;
-//            case 7:
-//                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
-//                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
-//                    follower.followPath(park,true);
-//                    setPathState(-1);
-//                }
-//                break;
+            case 3:
+                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
+                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
+                    follower.followPath(pickupSample2,true);
+                    setPathState(4);
+                }
+                break;
+            case 4:
+                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup2Basket heading */
+                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup2Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup2Basket.getHeading()) {
+                    follower.followPath(returnToBasket2,true);
+                    setPathState(5);
+                }
+                break;
+            case 5:
+                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
+                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
+                    follower.followPath(pickupSample3,true);
+                    setPathState(6);
+                }
+                break;
+            case 6:
+                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup3Basket heading */
+                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup3Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup3Basket.getHeading()) {
+                    follower.followPath(returnToBasket3,true);
+                    setPathState(7);
+                }
+                break;
+            case 7:
+                /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
+                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
+                    follower.followPath(park,true);
+                    setPathState(-1);
+                }
+                break;
         }
 
     }
@@ -154,6 +156,8 @@ public class pathingTestBasket extends OpMode {
         armSubsystem = new ArmSubsystem(hardwareMap);
         clawSubsystem = new ClawSubsystem(hardwareMap);
         commandScheduler = CommandScheduler.getInstance();
+
+        telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
 
         opmodeTimer.resetTimer();
 
@@ -183,6 +187,7 @@ public class pathingTestBasket extends OpMode {
         autonomousPathUpdate();
         armSubsystem.update();
         commandScheduler.run();
+        follower.telemetryDebug(telemetry);
         // Feedback to Driver Hub
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
