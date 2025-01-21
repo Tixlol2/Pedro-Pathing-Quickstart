@@ -6,7 +6,7 @@ public class autonPosesPedro {
 
     public final Pose startPoseBasket = new Pose(8, 107, 0);
     public final Pose basketScore = new Pose(21.5, 131.5, Math.toRadians(315));
-    public final Pose samplePickup1Basket = new Pose(21.51, 131.51, Math.toRadians(337));
+    public final Pose samplePickup1Basket = new Pose(21.51, 131.51, Math.toRadians(350));
     public final Pose samplePickup2Basket = new Pose(21.51, 131.51, Math.toRadians(355));
     public final Pose samplePickup3Basket = new Pose(21.51, 131.51, Math.toRadians(28));
 
