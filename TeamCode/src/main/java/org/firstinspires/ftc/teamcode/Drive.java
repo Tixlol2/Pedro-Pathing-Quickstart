@@ -93,8 +93,7 @@ public class Drive extends LinearOpMode {
             } else if (gamepad2.y) {
                 clawZ = 0;
             }
-            if (gamepad2.dpad_right ){clawX = 1;}
-            else if (gamepad2.dpad_up){clawX = 0;}
+
 
 
 
