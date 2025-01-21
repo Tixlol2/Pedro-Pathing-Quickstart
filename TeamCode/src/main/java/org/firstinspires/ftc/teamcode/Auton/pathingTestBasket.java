@@ -28,6 +28,7 @@ public class pathingTestBasket extends OpMode {
     ArmSubsystem armSubsystem;
     ClawSubsystem clawSubsystem;
     CommandScheduler commandScheduler;
+    Path tempPath;
 
     PathChain startToBasket, pickupSample1, returnToBasket1, pickupSample2, returnToBasket2, pickupSample3, returnToBasket3, park;
     autonPosesPedro autonPoses = new autonPosesPedro();
@@ -87,9 +88,9 @@ public class pathingTestBasket extends OpMode {
             case 1:
                 //Getting to scoring pos
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the basketScore position */
-                if(     follower.getPose().getX() - 1 < autonPoses.samplePickup1Basket.getX() && follower.getPose().getX() + 1 > autonPoses.samplePickup1Basket.getX() &&
-                        follower.getPose().getY() - 1 < autonPoses.samplePickup1Basket.getX() && follower.getPose().getY() + 1 > autonPoses.samplePickup1Basket.getY() &&
-                        follower.getPose().getHeading() - Math.toRadians(10) < autonPoses.samplePickup1Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(10) > autonPoses.samplePickup1Basket.getHeading()) {
+                if(     follower.getPose().getX() - 1 < autonPoses.basketScore.getX() && follower.getPose().getX() + 1 > autonPoses.basketScore.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.basketScore.getX() && follower.getPose().getY() + 1 > autonPoses.basketScore.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.basketScore.getHeading()) {
                     follower.followPath(pickupSample1, true);
                     setPathState(2);
                 }
@@ -98,7 +99,9 @@ public class pathingTestBasket extends OpMode {
             case 2:
                 //picking up first sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup1Basket heading */
-                if(follower.getPose().getHeading() - Math.toRadians(10) < autonPoses.samplePickup1Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(10) > autonPoses.samplePickup1Basket.getHeading()) {
+                if(     follower.getPose().getX() - 1 < autonPoses.samplePickup1Basket.getX() && follower.getPose().getX() + 1 > autonPoses.samplePickup1Basket.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.samplePickup1Basket.getX() && follower.getPose().getY() + 1 > autonPoses.samplePickup1Basket.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.samplePickup1Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.samplePickup1Basket.getHeading()) {
                     ClawSubsystem.setWristPosition(0);
                     ArmSubsystem.setPos(new Vector2d(32.5,5.2));
                     if (pathTimer.getElapsedTime() > 700) {
@@ -106,59 +109,125 @@ public class pathingTestBasket extends OpMode {
                     }
 
                     if (pathTimer.getElapsedTime() > 1000) {
-                        ArmSubsystem.setPos(new Vector2d(18,18));
-
-                        follower.followPath(returnToBasket1, true);
-                        setPathState(3);
+                        //Bring arm up to score
+                        ArmSubsystem.setPos(new Vector2d(18, 18));
                     }
 
+
                 }
-                break;
+//                else {
+//                    //Tells it to get its act together
+//                    tempPath = new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup1Basket)));
+//                    tempPath.setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup1Basket.getHeading());
+//                    follower.followPath(tempPath, true);
+//                }
+            break;
             case 3:
                 //scoring first sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
                 
-                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
+                if(follower.getPose().getX() - 1 < autonPoses.basketScore.getX() && follower.getPose().getX() + 1 > autonPoses.basketScore.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.basketScore.getX() && follower.getPose().getY() + 1 > autonPoses.basketScore.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.basketScore.getHeading()) {
 
-                    if (pathTimer.getElapsedTime() > 1000)
+                    if(pathTimer.getElapsedTime() > 500) {
+                        ClawSubsystem.setAnglePosition(1);
+                        ClawSubsystem.open();
+                        ArmSubsystem.setPos(new Vector2d(10, 10));
+                    }
+
+
+
+                    if (pathTimer.getElapsedTime() > 1000){
                         follower.followPath(pickupSample2,true);
                         setPathState(4);
+                    }
                 }
                 break;
             case 4:
                 //picking up second sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup2Basket heading */
-                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup2Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup2Basket.getHeading()) {
-                    follower.followPath(returnToBasket2,true);
-                    if (pathTimer.getElapsedTime() > 1000)
+                if(follower.getPose().getX() - 1 < autonPoses.samplePickup2Basket.getX() && follower.getPose().getX() + 1 > autonPoses.samplePickup2Basket.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.samplePickup2Basket.getX() && follower.getPose().getY() + 1 > autonPoses.samplePickup2Basket.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.samplePickup2Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.samplePickup2Basket.getHeading()) {
+                    ClawSubsystem.setWristPosition(0);
+                    ArmSubsystem.setPos(new Vector2d(32.5,5.2));
+                    if (pathTimer.getElapsedTime() > 700) {
+                        ClawSubsystem.close();
+                    }
+
+                    if (pathTimer.getElapsedTime() > 1000) {
+                        //Bring arm up to score
+                        ArmSubsystem.setPos(new Vector2d(18, 18));
+                    }
+
+                    if (pathTimer.getElapsedTime() > 1250){
+                        follower.followPath(returnToBasket2,true);
                         setPathState(5);
+                        }
                 }
                 break;
             case 5:
                 //scoring second sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
-                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
-                    follower.followPath(pickupSample3,true);
-                    if (pathTimer.getElapsedTime() > 1000)
+                if(follower.getPose().getX() - 1 < autonPoses.basketScore.getX() && follower.getPose().getX() + 1 > autonPoses.basketScore.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.basketScore.getX() && follower.getPose().getY() + 1 > autonPoses.basketScore.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.basketScore.getHeading()) {
+                    if(pathTimer.getElapsedTime() > 500) {
+                        ClawSubsystem.setAnglePosition(1);
+                        ClawSubsystem.open();
+                        ArmSubsystem.setPos(new Vector2d(10, 10));
+                    }
+
+
+
+                    if (pathTimer.getElapsedTime() > 1000){
+                        follower.followPath(pickupSample3,true);
                         setPathState(6);
+                    }
                 }
                 break;
             case 6:
                 //picking up third sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the samplePickup3Basket heading */
-                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.samplePickup3Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.samplePickup3Basket.getHeading()) {
-                    follower.followPath(returnToBasket3,true);
-                    if (pathTimer.getElapsedTime() > 1000)
-                        setPathState(7);
+                if(follower.getPose().getX() - 1 < autonPoses.samplePickup3Basket.getX() && follower.getPose().getX() + 1 > autonPoses.samplePickup3Basket.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.samplePickup3Basket.getX() && follower.getPose().getY() + 1 > autonPoses.samplePickup3Basket.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.samplePickup3Basket.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.samplePickup3Basket.getHeading()) {
+                    ClawSubsystem.setWristPosition(0);
+                    ArmSubsystem.setPos(new Vector2d(32.5,5.2));
+                    if (pathTimer.getElapsedTime() > 700) {
+                        ClawSubsystem.close();
+                    }
+
+                    if (pathTimer.getElapsedTime() > 1000) {
+                        //Bring arm up to score
+                        ArmSubsystem.setPos(new Vector2d(18, 18));
+                    }
+
+                    if (pathTimer.getElapsedTime() > 1250){
+                        follower.followPath(returnToBasket3,true);
+                        setPathState(5);
+                    }
                 }
                 break;
             case 7:
                 // scoring third sample
                 /* This case checks the robot's heading and will wait until the robot heading is close (within 3 degrees) from the basketScore heading */
-                if(follower.getPose().getHeading() - Math.toRadians(3) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(3) > autonPoses.basketScore.getHeading()) {
-                    follower.followPath(park,true);
-                    if (pathTimer.getElapsedTime() > 1000)
-                        setPathState(-1);
+                if(follower.getPose().getX() - 1 < autonPoses.basketScore.getX() && follower.getPose().getX() + 1 > autonPoses.basketScore.getX() &&
+                        follower.getPose().getY() - 1 < autonPoses.basketScore.getX() && follower.getPose().getY() + 1 > autonPoses.basketScore.getY() &&
+                        follower.getPose().getHeading() - Math.toRadians(5) < autonPoses.basketScore.getHeading() && follower.getPose().getHeading() + Math.toRadians(5) > autonPoses.basketScore.getHeading()) {
+                    if(pathTimer.getElapsedTime() > 500) {
+                        ClawSubsystem.setAnglePosition(1);
+                        ClawSubsystem.open();
+                        ArmSubsystem.setPos(new Vector2d(10, 10));
+                    }
+
+
+
+                    if (pathTimer.getElapsedTime() > 1000){
+                        follower.followPath(park,true);
+                        setPathState(4);
+                    }
                 }
                 break;
         }

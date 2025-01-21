@@ -113,9 +113,6 @@ public class sampleProcessor implements VisionProcessor {
 
         Mat yellowMask = new Mat();
 
-        Mat redMask1 = new Mat();
-        Mat redMask2 = new Mat();
-
         if(color == Color.YELLOW){
             Core.inRange(hsvFrame, lowerYellow, upperYellow, yellowMask);
         }
