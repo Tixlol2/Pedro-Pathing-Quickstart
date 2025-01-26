@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-    private static final double pAngle = 0.005, iAngle = 0.0, dAngle = 0;
+    private static final double pAngle = 0.005, iAngle = 0.0, dAngle = 0.0003;
     private static double fAngle = 0.1;
 
 
@@ -39,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     private static final double ticks_in_inch = ticks_per_rotation_ext / (112 / 25.4);
 
 
-    private static double pExtend = 0.008, iExtend = 0.05, dExtend = 0, fExtend = 0;
+    private static double pExtend = 0.008, iExtend = 0/*0.05*/, dExtend = 0.000, fExtend = 0;
 
 
     private static int anglePos;
@@ -190,7 +190,7 @@ public class ArmSubsystem extends SubsystemBase {
         //Angle motor
         //angleController.setPID(pAngle,iAngle,dAngle);
         anglePIDFpower = angleController.calculate(armAngle, angleTarget);
-        anglefeedForward = Math.cos(Math.toRadians(armAngle / ticks_in_degree)) * fAngle;
+        anglefeedForward = Math.cos(Math.toRadians(armAngle / ticks_in_degree)) * fAngle * (1 + 3 * (armExt / extMax));
         anglePower = Math.max(-0.4, Math.min(0.8, anglePIDFpower + anglefeedForward));
 
         angleMotorLeft.setPower(anglePower);
@@ -225,7 +225,7 @@ public class ArmSubsystem extends SubsystemBase {
         //Angle motor
         //angleController.setPID(pAngle,iAngle,dAngle);
         anglePIDFpower = angleController.calculate(armAngle, angleTarget);
-        anglefeedForward = Math.cos(Math.toRadians(armAngle / ticks_in_degree)) * fAngle;
+        anglefeedForward = Math.cos(Math.toRadians(armAngle / ticks_in_degree)) * fAngle * (1 + 3 * (armExt / extMax));
         anglePower = Math.max(-0.4, Math.min(0.8, anglePIDFpower + anglefeedForward));
 
         angleMotorLeft.setPower(anglePower);

@@ -10,7 +10,7 @@ public class ClawSubsystem extends SubsystemBase {
     public static Servo driverOfClaw = null;
     public static Servo wristOfClaw = null;
 
-    public static final double open = 0;
+    public static final double open = 0.1;
     public static final double closed = 1;
 
 

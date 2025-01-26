@@ -98,19 +98,19 @@ public class Drive extends LinearOpMode {
 
 
             clawZ += (Math.pow(gamepad2.left_trigger - gamepad2.right_trigger,3) * 0.025 * gp2Deflator);
-            clawX = gamepad2.dpad_right ? 1 : gamepad2.dpad_up ? 0.5 : clawX;
+            clawX = gamepad2.dpad_right ? 0.5 : gamepad2.dpad_up ? 1 : gamepad2.dpad_down ? 0 : clawX;
 
-            angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -16 * gp2Deflator);
+            angleTarget += (int) (Math.pow(gamepad2.left_stick_y, 3) * -48 * gp2Deflator * (1- (double)extendTarget / 4000));
             extendTarget += (int) (Math.pow(gamepad2.right_stick_y, 3) * -120 * gp2Deflator);
 
             /////////////////
             // Automations //
             /////////////////
 
-            if (gamepad2.dpad_left) highbasket();
-              else //Prepare to score specimen
-                if (gamepad2.dpad_down) picking();
-                else if (gamepad2.left_stick_button) highchamber();
+//            if (gamepad2.dpad_left) highbasket();
+//              else //Prepare to score specimen
+//                if (gamepad2.dpad_down) picking();
+//                else if (gamepad2.left_stick_button) highchamber();
 
 
 

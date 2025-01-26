@@ -86,16 +86,18 @@ public class pathingTestChamber extends OpMode {
         switch(pathState){
 
             case 0:
-                follower.followPath(startToChamber);
+                //follower.followPath(startToChamber);
                 setPathState(1);
                 break;
             case 1:
+                //
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the basketScore position */
                 if(follower.getPose().getX() > (autonPoses.chamberScore.getX() - 1) && follower.getPose().getY() > (autonPoses.chamberScore.getY() - 1)) {
                     follower.followPath(pickupSample1,true);
                     setPathState(2);
                 }
-                break;
+            break;
+
             case 2:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the sample1Pickup position */
                 if(follower.getPose().getX() > (autonPoses.samplePickup1Chamber.getX() - 1) && follower.getPose().getY() > (autonPoses.samplePickup1Chamber.getY() - 1)) {
