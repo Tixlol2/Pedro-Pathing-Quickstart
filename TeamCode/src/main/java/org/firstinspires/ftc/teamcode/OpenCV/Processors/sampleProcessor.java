@@ -41,7 +41,7 @@ public class sampleProcessor implements VisionProcessor {
     private Position position;
     double cX = 0;
     double cY = 0;
-    public static final double objectWidthInRealWorldUnits = 3.75;  // Replace with the actual width of the object in real-world units
+    public static final double objectWidthInRealWorldUnits = 1.5;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 1430;
 
     enum Position {
@@ -162,8 +162,12 @@ public class sampleProcessor implements VisionProcessor {
         return position;
     }
 
-    private static double getDistance(double width){
+    public static double getDistance(double width){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
+    }
+
+    public static void setColor(Color color1){
+        color = color1;
     }
 }
