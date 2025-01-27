@@ -3,9 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftFrontMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftRearMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightFrontMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightRearMotorName;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Intake.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem;
@@ -44,6 +50,11 @@ public class Drive extends LinearOpMode {
         //During Initialization:
 
         follower = new Follower(hardwareMap);
+
+        hardwareMap.get(DcMotorEx.class, leftFrontMotorName).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hardwareMap.get(DcMotorEx.class, rightFrontMotorName).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hardwareMap.get(DcMotorEx.class, leftRearMotorName).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hardwareMap.get(DcMotorEx.class, rightRearMotorName).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //ll3a = hardwareMap.get(Limelight3A.class, "LL3a");
