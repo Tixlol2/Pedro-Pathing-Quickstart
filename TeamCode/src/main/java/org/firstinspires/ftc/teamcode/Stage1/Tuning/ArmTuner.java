@@ -62,8 +62,7 @@ public class ArmTuner extends LinearOpMode {
 
 //            position = armSubsystem.getPosition();
 
-            telemetry.addData("Current X: ", );
-            telemetry.addData("Current y: ", );
+
 
             telemetry.update();
 
