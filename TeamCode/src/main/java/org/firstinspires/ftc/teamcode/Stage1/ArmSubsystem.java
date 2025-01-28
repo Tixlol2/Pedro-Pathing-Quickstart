@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-    private static final double pAngle = 0.005, iAngle = 0.0, dAngle = 0.0003;
+    private static final double pAngle = 0.008, iAngle = 0.0, dAngle = 0.0008;
     private static double fAngle = 0.1;
 
 
@@ -39,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     private static final double ticks_in_inch = ticks_per_rotation_ext / (112 / 25.4);
 
 
-    private static double pExtend = 0.008, iExtend = 0/*0.05*/, dExtend = 0.000, fExtend = 0;
+    private static double pExtend = 0.015, iExtend = 0/*0.05*/, dExtend = 0.0004, fExtend = 0;
 
 
     private static int anglePos;
@@ -54,6 +54,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     private static final PIDController angleController = new PIDController(pAngle, iAngle, dAngle);
     private static final PIDController extendController = new PIDController(pExtend, iExtend, dExtend);
+
+
+    private static boolean isBusy = false;
 
     public ArmSubsystem(final HardwareMap hMap){
 
@@ -137,12 +140,20 @@ public class ArmSubsystem extends SubsystemBase {
     // Setters
     // ----------------
     public static void setPos(Vector2d armPos) {
+        int armAngle = angleMotorLeft.getCurrentPosition();
+        int armExt = extenderMotorUp.getCurrentPosition();
+
         angleTarget = (int) (Math.toDegrees(Math.atan(armPos.getY()/armPos.getX())) * ticks_in_degree);
         extTarget = (int) ((Math.sqrt(armPos.getX()*armPos.getX() + armPos.getY()*armPos.getY()) -18)* ticks_in_inch);
+        //isBusy = !(armAngle >= angleTarget-10 && armAngle <= angleTarget+10 && armExt >= extTarget - 4 && armExt <= extTarget + 4);
     }
     public static void setPos(double ext, double angle) {
+        int armAngle = angleMotorLeft.getCurrentPosition();
+        int armExt = extenderMotorUp.getCurrentPosition();
+
         angleTarget = (int) (angle * ticks_in_degree);
         extTarget = (int) ((ext) * ticks_in_inch);
+        //isBusy = !(armAngle >= angleTarget-10 && armAngle <= angleTarget+10 && armExt >= extTarget - 4 && armExt <= extTarget + 4);
     }
     // ----------------
     // Getters
@@ -161,6 +172,25 @@ public class ArmSubsystem extends SubsystemBase {
 
     public static double getX(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18)* Math.cos(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
     public static double getY(){return (extenderMotorUp.getCurrentPosition()/ticks_in_inch +18) * Math.sin(Math.toRadians(angleMotorLeft.getCurrentPosition()/ticks_in_degree));}
+
+    public static boolean isBusy(){return isBusy;}
+
+    public static void setAnglePID(double pAngle, double iAngle, double dAngle){
+        angleController.setPID(pAngle, iAngle, dAngle);
+    }
+
+    public static void setExtendPID(double pExtend, double iExtend, double dExtend){
+        extendController.setPID(pExtend, iExtend, dExtend);
+    }
+
+    public static double getAngleFeedForward(){return fAngle;}
+    public static double getAngleP() {return pAngle;}
+    public static double getAngleI() {return iAngle;}
+    public static double getAngleD() {return dAngle;}
+    public static double getExtendP() {return pExtend;}
+    public static double getExtendI() {return iExtend;}
+    public static double getExtendD() {return dExtend;}
+
     // ----------------
     // Calculations
     // ----------------
@@ -176,11 +206,10 @@ public class ArmSubsystem extends SubsystemBase {
         int extendPos;
 
         double armAngle = angleMotorLeft.getCurrentPosition();
-        double armExt = extenderMotorUp.getCurrentPosition();
+        int armExt = extenderMotorUp.getCurrentPosition();
 
 
         double anglePIDFPower;
-        armAngle = angleMotorLeft.getCurrentPosition();
 
         // CLamping
 
@@ -198,10 +227,12 @@ public class ArmSubsystem extends SubsystemBase {
 
         //Extension motor
         //extendController.setPID(pExtend,iExtend,dExtend);
-        extendPower = Math.max(-0.8, Math.min(0.8, extendController.calculate(extenderMotorUp.getCurrentPosition(), extTarget)));
+        extendPower = Math.max(-1, Math.min(1, extendController.calculate(extenderMotorUp.getCurrentPosition(), extTarget)));
 
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
+
+        isBusy = !(armAngle >= angleTarget-10 && armAngle <= angleTarget+10 && armExt >= extTarget - 4 && armExt <= extTarget + 4);
     }
     public static void update() {
         double anglePower;
@@ -233,9 +264,10 @@ public class ArmSubsystem extends SubsystemBase {
 
         //Extension motor
         //extendController.setPID(pExtend,iExtend,dExtend);
-        extendPower = Math.max(-0.8, Math.min(0.8, extendController.calculate(extenderMotorUp.getCurrentPosition(), extTarget)));
+        extendPower = Math.max(-1, Math.min(1, extendController.calculate(extenderMotorUp.getCurrentPosition(), extTarget)));
 
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
+        isBusy = !(armAngle >= angleTarget-10*2 && armAngle <= angleTarget+10*2 && armExt >= extTarget - 8*2 && armExt <= extTarget + 8*2);
     }
 }
