@@ -5,10 +5,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 public class autonPosesPedro {
 
     public final Pose startPoseBasket = new Pose(8, 105, 0);
-    public final Pose basketScore = new Pose(16, 130, Math.toRadians(-45));
-    public final Pose samplePickup1Basket = new Pose(20, 120, Math.toRadians(0));
-    public final Pose samplePickup2Basket = new Pose(20, 120, Math.toRadians(6));
-    public final Pose samplePickup3Basket = new Pose(20, 120, Math.toRadians(12));
+    public final Pose basketScore = new Pose(22, 126, Math.toRadians(-45));
+    public final Pose samplePickup1Basket = new Pose(18, 120, Math.toRadians(0));
+    public final Pose samplePickup2Basket = new Pose(20, 120, Math.toRadians(21));
+    public final Pose samplePickup3Basket = new Pose(25, 120, Math.toRadians(38));
 
     public final Pose basketPark = new Pose(61, 98, Math.toRadians(270));
     public final Pose basketParkCP1 = new Pose(68, 118);

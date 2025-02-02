@@ -39,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     private static final double ticks_in_inch = ticks_per_rotation_ext / (112 / 25.4);
 
 
-    private static double pExtend = 0.015, iExtend = 0/*0.05*/, dExtend = 0.0004, fExtend = 0;
+    private static double pExtend = 0.012, iExtend = 0/*0.05*/, dExtend = 0.0004, fExtend = 0;
 
 
     private static int anglePos;
@@ -232,7 +232,7 @@ public class ArmSubsystem extends SubsystemBase {
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
 
-        isBusy = !(armAngle >= angleTarget-10 && armAngle <= angleTarget+10 && armExt >= extTarget - 4 && armExt <= extTarget + 4);
+        isBusy = !(armAngle >= angleTarget-17 && armAngle <= angleTarget+17 && armExt >= extTarget - 10 && armExt <= extTarget + 10);
     }
     public static void update() {
         double anglePower;
@@ -268,6 +268,6 @@ public class ArmSubsystem extends SubsystemBase {
 
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
-        isBusy = !(armAngle >= angleTarget-10*2 && armAngle <= angleTarget+10*2 && armExt >= extTarget - 8*2 && armExt <= extTarget + 8*2);
+        isBusy = !(armAngle >= angleTarget-17 && armAngle <= angleTarget+17 && armExt >= extTarget - 10 && armExt <= extTarget + 10);
     }
 }
