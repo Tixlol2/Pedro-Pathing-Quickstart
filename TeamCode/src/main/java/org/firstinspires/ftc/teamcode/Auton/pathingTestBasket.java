@@ -328,16 +328,16 @@ public class pathingTestBasket extends OpMode {
         follower.update();
         autonomousPathUpdate();
         autonomousArmUpdate();
-        telemetry.addData("isBusy?", ArmSubsystem.isBusy());
+//        telemetry.addData("isBusy?", ArmSubsystem.isBusy());
         ArmSubsystem.update();
-        telemetry.addData("isBusy?2", ArmSubsystem.isBusy());
+//        telemetry.addData("isBusy?2", ArmSubsystem.isBusy());
 
         // Feedback to Driver Hub
-        telemetry.addData("path state", pathState);
-        telemetry.addData("arm State", armState);
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
+//        telemetry.addData("path state", pathState);
+//        telemetry.addData("arm State", armState);
+//        telemetry.addData("x", follower.getPose().getX());
+//        telemetry.addData("y", follower.getPose().getY());
+//        telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
 
         telemetry.update();
     }

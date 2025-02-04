@@ -13,6 +13,7 @@ public class autonPosesPedro {
     public final Pose basketPark = new Pose(61, 98, Math.toRadians(270));
     public final Pose basketParkCP1 = new Pose(68, 118);
 
+
     public final Pose startPoseChamber = new Pose(9, 48, 0);
     public final Pose chamberScore = new Pose(36, 64, Math.toRadians(0));
 
