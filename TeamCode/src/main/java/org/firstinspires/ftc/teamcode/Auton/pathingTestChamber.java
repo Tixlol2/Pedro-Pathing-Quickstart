@@ -31,49 +31,49 @@ public class pathingTestChamber extends OpMode {
     CommandScheduler commandScheduler;
     Path tempPath;
 
-    PathChain startToBasket, pickupSample1, returnToBasket1, pickupSample2, returnToBasket2, pickupSample3, returnToBasket3, park;
+    PathChain startToChamber, pickupSample1, returnToObservation1, pickupSample2, returnToObservation2, pickupSample3, returnToObservation3;
     autonPosesPedro autonPoses = new autonPosesPedro();
 
     public void buildPaths() {
 
-        park = follower.pathBuilder()
-                .addPath(new Path(new BezierCurve(new Point(autonPoses.basketScore), /* CONTROL POINT ->>> */ new Point(autonPoses.basketParkCP1), new Point(autonPoses.basketPark))))
-                .setLinearHeadingInterpolation(autonPoses.basketScore.getHeading(), autonPoses.basketPark.getHeading())
-                .build();
+        /* park = follower.pathBuilder()
+                .addPath(new Path(new BezierCurve(new Point(autonPoses.chamberScore), CONTROL POINT ->>> new Point(autonPoses.basketParkCP1), new Point(autonPoses.basketPark))))
+              .setLinearHeadingInterpolation(autonPoses.chamberScore.getHeading(), autonPoses.basketPark.getHeading())
+                .build(); */
 
-        startToBasket = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.startPoseBasket), new Point(autonPoses.basketScore))))
-                .setLinearHeadingInterpolation(autonPoses.startPoseBasket.getHeading(), autonPoses.basketScore.getHeading())
+        startToChamber = follower.pathBuilder()
+                .addPath(new Path(new BezierLine(new Point(autonPoses.startPoseChamber), new Point(autonPoses.chamberScore))))
+                .setLinearHeadingInterpolation(autonPoses.startPoseChamber.getHeading(), autonPoses.chamberScore.getHeading())
                 .build();
 
         pickupSample1 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.basketScore), new Point(autonPoses.samplePickup1Basket))))
-                .setLinearHeadingInterpolation(autonPoses.basketScore.getHeading(), autonPoses.samplePickup1Basket.getHeading())
+                .addPath(new Path(new BezierLine(new Point(autonPoses.chamberScore), new Point(autonPoses.samplePickup1Chamber))))
+                .setLinearHeadingInterpolation(autonPoses.chamberScore.getHeading(), autonPoses.samplePickup1Chamber.getHeading())
                 .build();
 
-        returnToBasket1 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup1Basket), new Point(autonPoses.basketScore))))
-                .setLinearHeadingInterpolation(autonPoses.samplePickup1Basket.getHeading(), autonPoses.basketScore.getHeading())
+        returnToObservation1 = follower.pathBuilder()
+                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup1Chamber), new Point(autonPoses.chamberScore))))
+                .setLinearHeadingInterpolation(autonPoses.samplePickup1Chamber.getHeading(), autonPoses.chamberScore.getHeading())
                 .build();
 
         pickupSample2 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.basketScore), new Point(autonPoses.samplePickup2Basket))))
-                .setLinearHeadingInterpolation(autonPoses.basketScore.getHeading(), autonPoses.samplePickup2Basket.getHeading())
+                .addPath(new Path(new BezierLine(new Point(autonPoses.chamberScore), new Point(autonPoses.samplePickup2Chamber))))
+                .setLinearHeadingInterpolation(autonPoses.chamberScore.getHeading(), autonPoses.samplePickup2Chamber.getHeading())
                 .build();
 
-        returnToBasket2 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup2Basket), new Point(autonPoses.basketScore))))
-                .setLinearHeadingInterpolation(autonPoses.samplePickup2Basket.getHeading(), autonPoses.basketScore.getHeading())
+        returnToObservation2 = follower.pathBuilder()
+                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup2Chamber), new Point(autonPoses.chamberScore))))
+                .setLinearHeadingInterpolation(autonPoses.samplePickup2Chamber.getHeading(), autonPoses.chamberScore.getHeading())
                 .build();
 
         pickupSample3 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.basketScore), new Point(autonPoses.samplePickup3Basket))))
-                .setLinearHeadingInterpolation(autonPoses.basketScore.getHeading(), autonPoses.samplePickup3Basket.getHeading())
+                .addPath(new Path(new BezierLine(new Point(autonPoses.chamberScore), new Point(autonPoses.samplePickup3Chamber))))
+                .setLinearHeadingInterpolation(autonPoses.chamberScore.getHeading(), autonPoses.samplePickup3Chamber.getHeading())
                 .build();
 
-        returnToBasket3 = follower.pathBuilder()
-                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup3Basket), new Point(autonPoses.basketScore))))
-                .setLinearHeadingInterpolation(autonPoses.samplePickup3Basket.getHeading(), autonPoses.basketScore.getHeading())
+        returnToObservation3 = follower.pathBuilder()
+                .addPath(new Path(new BezierLine(new Point(autonPoses.samplePickup3Chamber), new Point(autonPoses.chamberScore))))
+                .setLinearHeadingInterpolation(autonPoses.samplePickup3Chamber.getHeading(), autonPoses.chamberScore.getHeading())
                 .build();
 
     }
@@ -145,7 +145,7 @@ public class pathingTestChamber extends OpMode {
         switch(pathState){
 
             case 0:
-                follower.followPath(startToBasket, true);
+                follower.followPath(startToChamber, true);
                 setPathState(1);
                 break;
             case 1:
@@ -161,8 +161,8 @@ public class pathingTestChamber extends OpMode {
                 //placing first sample
                 if (armState == 0) {
                     pickupSample1 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup1Basket))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup1Basket.getHeading())
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup1Chamber))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup1Chamber.getHeading())
                             .build();
                     follower.followPath(pickupSample1, true);
                     setPathState(2);
@@ -179,11 +179,11 @@ public class pathingTestChamber extends OpMode {
             case -2:
                 //picking up first sample
                 if (armState == 0) {
-                    returnToBasket1 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.basketScore))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketScore.getHeading())
+                    returnToObservation1 = follower.pathBuilder()
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.chamberScore))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.chamberScore.getHeading())
                             .build();
-                    follower.followPath(returnToBasket1, true);
+                    follower.followPath(returnToObservation1, true);
                     setPathState(3);
                 }
                 break;
@@ -198,8 +198,8 @@ public class pathingTestChamber extends OpMode {
             case -3:
                 if (armState == 0) {
                     pickupSample2 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup2Basket))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup2Basket.getHeading())
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup2Chamber))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup2Chamber.getHeading())
                             .build();
                     follower.followPath(pickupSample2, true);
                     setPathState(4);
@@ -215,11 +215,11 @@ public class pathingTestChamber extends OpMode {
                 break;
             case -4:
                 if (armState == 0) {
-                    returnToBasket2 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.basketScore))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketScore.getHeading())
+                    returnToObservation2 = follower.pathBuilder()
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.chamberScore))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.chamberScore.getHeading())
                             .build();
-                    follower.followPath(returnToBasket2, true);
+                    follower.followPath(returnToObservation2, true);
                     setPathState(5);
                 }
                 break;
@@ -234,8 +234,8 @@ public class pathingTestChamber extends OpMode {
             case -5:
                 if (armState == 0) {
                     pickupSample3 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup3Basket))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup3Basket.getHeading())
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.samplePickup3Chamber))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.samplePickup3Chamber.getHeading())
                             .build();
                     follower.followPath(pickupSample3, true);
                     setPathState(6);
@@ -251,11 +251,11 @@ public class pathingTestChamber extends OpMode {
                 break;
             case -6:
                 if (armState == 0) {
-                    returnToBasket3 = follower.pathBuilder()
-                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.basketScore))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketScore.getHeading())
+                    returnToObservation3 = follower.pathBuilder()
+                            .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.chamberScore))))
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.chamberScore.getHeading())
                             .build();
-                    follower.followPath(returnToBasket3, true);
+                    follower.followPath(returnToObservation3, true);
                     setPathState(7);
                 }
                 break;
@@ -304,8 +304,8 @@ public class pathingTestChamber extends OpMode {
         opmodeTimer.resetTimer();
 
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(autonPoses.startPoseBasket);
-        follower.getPose().setHeading(autonPoses.startPoseBasket.getHeading());
+        follower.setStartingPose(autonPoses.startPoseChamber);
+        follower.getPose().setHeading(autonPoses.startPoseChamber.getHeading());
         ClawSubsystem.setAnglePosition(1);
         ArmSubsystem.setPos(2,30);
 
@@ -360,3 +360,4 @@ public class pathingTestChamber extends OpMode {
 
 
 }
+
