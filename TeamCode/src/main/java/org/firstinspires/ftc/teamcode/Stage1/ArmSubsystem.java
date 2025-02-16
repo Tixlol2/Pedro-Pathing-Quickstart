@@ -21,8 +21,8 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-    private static final double pAngle = 0.008, iAngle = 0.0, dAngle = 0.0008;
-    private static double fAngle = 0.1;
+    public static final double pAngle = 0.0075, iAngle = 0.0, dAngle = 0.0006;
+    public static double fAngle = 0.1;
 
 
     //Angle Motor
@@ -39,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     private static final double ticks_in_inch = ticks_per_rotation_ext / (112 / 25.4);
 
 
-    private static double pExtend = 0.012, iExtend = 0/*0.05*/, dExtend = 0.0004, fExtend = 0;
+    public static double pExtend = 0.009, iExtend = 0/*0.05*/, dExtend = 0.0006, fExtend = 0;
 
 
     private static int anglePos;
@@ -47,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     private static int extPos;
     private static int extTarget;
 
-    private static final int angleMax = 800;
+    private static final int angleMax = 750;
     private static final int angleMin = 10;
     private static final int extMin = 10;
     private static final int extMax = 3600;
@@ -214,7 +214,7 @@ public class ArmSubsystem extends SubsystemBase {
         // CLamping
 
         angleTarget = Math.max(angleMin, Math.min(angleMax, angleTarget));
-        extTarget = (int) Math.max(extMin, Math.min(Math.min(extMax, extMax - ((extMax - 16*ticks_in_inch) * Math.cos(Math.toRadians(armAngle / ticks_in_degree)))), extTarget));
+        extTarget = (int) Math.max(extMin, Math.min(Math.min(extMax, extMax - ((extMax - 12*ticks_in_inch) * Math.cos(Math.toRadians(armAngle / ticks_in_degree)))), extTarget));
 
         //Angle motor
         //angleController.setPID(pAngle,iAngle,dAngle);
@@ -231,7 +231,6 @@ public class ArmSubsystem extends SubsystemBase {
 
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
-
         isBusy = !(armAngle >= angleTarget-17 && armAngle <= angleTarget+17 && armExt >= extTarget - 10 && armExt <= extTarget + 10);
     }
     public static void update() {
@@ -250,7 +249,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         // CLamping
 
-        angleTarget = Math.max(angleMin, Math.min(angleMax, angleTarget));
+        angleTarget = Math.max(angleMin, Math.min(angleMax+50, angleTarget));
         extTarget = (int) Math.max(extMin, Math.min(Math.min(extMax, extMax - ((extMax - 26*ticks_in_inch) * Math.cos(Math.toRadians(armAngle / ticks_in_degree)))), extTarget));
 
         //Angle motor
@@ -268,6 +267,6 @@ public class ArmSubsystem extends SubsystemBase {
 
         extenderMotorUp.setPower(extendPower);
         extenderMotorDown.setPower(extendPower);
-        isBusy = !(armAngle >= angleTarget-17 && armAngle <= angleTarget+17 && armExt >= extTarget - 10 && armExt <= extTarget + 10);
+        isBusy = !(armAngle >= angleTarget-20 && armAngle <= angleTarget+20 && armExt >= extTarget - 10 && armExt <= extTarget + 10);
     }
 }

@@ -307,7 +307,7 @@ public class pathingTestChamber extends OpMode {
         follower.setStartingPose(autonPoses.startPoseBasket);
         follower.getPose().setHeading(autonPoses.startPoseBasket.getHeading());
         ClawSubsystem.setAnglePosition(1);
-        ArmSubsystem.setPos(2,30);
+        ArmSubsystem.setPos(2,50);
 
 
         buildPaths();

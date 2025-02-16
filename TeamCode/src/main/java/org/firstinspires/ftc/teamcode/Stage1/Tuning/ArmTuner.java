@@ -20,7 +20,7 @@ public class ArmTuner extends LinearOpMode {
 
     public static double x = 1;
     public static double y = 0;
-    public static double pAngle = 0.005, iAngle = 0.0, dAngle = 0.0008, fAngle = 0.1, pExtend = 0.015, iExtend = 0, dExtend = 0.0004;
+    private static double pAngle = 0.005, iAngle = 0.0, dAngle = 0.0008, fAngle = 0.1, pExtend = 0.015, iExtend = 0, dExtend = 0.0004;
 
 
 

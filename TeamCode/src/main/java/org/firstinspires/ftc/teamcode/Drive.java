@@ -3,6 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
+
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.pAngle;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.iAngle;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.dAngle;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.fAngle;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.pExtend;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.iExtend;
+import static org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem.dExtend;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftFrontMotorName;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftRearMotorName;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightFrontMotorName;
@@ -67,7 +75,7 @@ public class Drive extends LinearOpMode {
         //hMap, name of servo used for claw
         ClawSubsystem clawSubsystem = new ClawSubsystem(hardwareMap, "clawAngle", "clawDriver", "clawWrist");
         //hMap, name of motor used to change the EXTENSION HEIGHT of the arm/slides
-        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, "armExtendUp", "armExtendDown", "armAngleLeft", "armAngleRight");
+        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, "armExtendUp", "armExtendDown", "armAngleLeft", "armAngleRight", 0.006, iAngle, 0.0004, fAngle, 0.006, iExtend, 0.0004);
 //        armPIDFCommand armPIDFCommand = new armPIDFCommand(armSubsystem, 0,0 );
 
 
@@ -103,6 +111,13 @@ public class Drive extends LinearOpMode {
                 clawZ = 1;
             } else if (gamepad2.y) {
                 clawZ = 0;
+            }
+
+            if (gamepad2.right_stick_button) {
+                ArmSubsystem.setPos(50,90);
+                angleTarget = ArmSubsystem.getAngleTarget();
+                extendTarget = ArmSubsystem.getExtTarget();
+
             }
 
 

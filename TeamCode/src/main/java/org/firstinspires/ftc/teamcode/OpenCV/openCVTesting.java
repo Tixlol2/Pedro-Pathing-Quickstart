@@ -9,7 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Intake.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.OpenCV.Processors.sampleProcessor;
+import org.firstinspires.ftc.teamcode.Stage1.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
@@ -39,12 +41,21 @@ public class openCVTesting extends LinearOpMode {
     org.firstinspires.ftc.teamcode.OpenCV.Processors.sampleProcessor sampleProcessor = new sampleProcessor();
     VisionPortal visionPortal;
 
+    org.firstinspires.ftc.teamcode.OpenCV.Processors.sampleProcessor.SamplePose samplePose = null;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         //init once
 
         telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
+
+        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap);
+        ClawSubsystem clawSubsystem = new ClawSubsystem(hardwareMap);
+
+        ArmSubsystem.setPos(5,10);
+        ClawSubsystem.setWristPosition(0);
+        ClawSubsystem.setAnglePosition(0.5);
 
         AprilTagProcessor aprilTagProcessor = new AprilTagProcessor.Builder()
                 //What tags to look for
@@ -85,6 +96,8 @@ public class openCVTesting extends LinearOpMode {
             telemetry.addLine("Should only run the OpMode when this ^^^");
             telemetry.addLine("Says 'Streaming' or else the entire thing will break");
             telemetry.update();
+
+            ArmSubsystem.update();
         }
 
         while(isStarted() && !isStopRequested()){
@@ -94,7 +107,6 @@ public class openCVTesting extends LinearOpMode {
 
             telemetry.addData("Number of Tags ", detections.size());
             telemetry.addData("Camera State", visionPortal.getCameraState());
-            telemetry.addData("Position of Sample", sampleProcessor.getPosition());
             telemetry.addLine();
             //Every 20 frames it'll run the april tag detections
             if(frame % 20 == 0) {
@@ -134,6 +146,16 @@ public class openCVTesting extends LinearOpMode {
             follower.updatePose();
             follower.update();
             telemetry.update();
+
+            samplePose = sampleProcessor.getPose();
+
+            if(samplePose != null){
+                ArmSubsystem.setPos(samplePose.getDistance(),15);
+                ClawSubsystem.setAnglePosition(0.5*samplePose.getRotation()/90+0.5);
+                //follower.followPath(follower.pathBuilder().addBezierLine(new Point(follower.getPose().getX(),follower.getPose().getY()), new Point(follower.getPose().getX() - samplePose.getX(),follower.getPose().getY())).build());
+            }
+
+            ArmSubsystem.update();
 
 
 

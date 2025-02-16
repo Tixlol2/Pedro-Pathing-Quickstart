@@ -85,13 +85,13 @@ public class pathingTestBasket extends OpMode {
             case -1:
                 ClawSubsystem.setWristPosition(0);
                 ClawSubsystem.open();
-                ArmSubsystem.setPos(18, 18);
+                ArmSubsystem.setPos(17, 18);
                 if (!ArmSubsystem.isBusy()) {
                     setArmState(-2);
                 }
             break;
             case -2:
-                ArmSubsystem.setPos(16,8);
+                ArmSubsystem.setPos(17,12.5);
                 if (!ArmSubsystem.isBusy() && armTimer.getElapsedTime() > 200) {
                     setArmState(-3);
                 }
@@ -112,8 +112,8 @@ public class pathingTestBasket extends OpMode {
             //cases for scoring samples
             case 1:
                 ClawSubsystem.setWristPosition(0);
-                ArmSubsystem.setPos(50,100);
-                if (!ArmSubsystem.isBusy()) {
+                ArmSubsystem.setPos(50,95);
+                if (!ArmSubsystem.isBusy() && armTimer.getElapsedTime() > 500) {
                     setArmState(2);
                 }
                 break;
@@ -127,7 +127,7 @@ public class pathingTestBasket extends OpMode {
             case 3:
                 ClawSubsystem.setWristPosition(1);
                 //ClawSubsystem.open();
-                if (!ArmSubsystem.isBusy() && armTimer.getElapsedTime() > 400) {
+                if (!ArmSubsystem.isBusy() && armTimer.getElapsedTime() > 500) {
                     setArmState(4);
                 }
                 break;
@@ -135,7 +135,7 @@ public class pathingTestBasket extends OpMode {
                 setArmState(0);
                 ClawSubsystem.open();
                 ClawSubsystem.setWristPosition(0);
-                ArmSubsystem.setPos(10, 60);
+                ArmSubsystem.setPos(10, 40);
                 break;
 
         }
@@ -253,7 +253,7 @@ public class pathingTestBasket extends OpMode {
                 if (armState == 0) {
                     returnToBasket3 = follower.pathBuilder()
                             .addPath(new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.basketScore))))
-                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketScore.getHeading())
+                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketScore.getHeading()- Math.toRadians(3))
                             .build();
                     follower.followPath(returnToBasket3, true);
                     setPathState(7);
@@ -268,7 +268,13 @@ public class pathingTestBasket extends OpMode {
                 break;
             case -7:
                 if (armState == 0) {
-                    //follower.followPath(park, true);
+//                    returnToBasket1 = follower.pathBuilder().addPath( new Path(new BezierLine(new Point(follower.getPose()), new Point(autonPoses.basketParkCP1))))
+//                            .setLinearHeadingInterpolation(follower.getPose().getHeading(), autonPoses.basketPark.getHeading())
+//                            .addPath(new Path(new BezierLine(new Point(autonPoses.basketParkCP1), new Point(autonPoses.basketPark))))
+//                            .setTangentHeadingInterpolation()
+//
+//                            .build();
+//                    follower.followPath(returnToBasket1, true);
                 }
                 break;
         }
@@ -307,7 +313,7 @@ public class pathingTestBasket extends OpMode {
         follower.setStartingPose(autonPoses.startPoseBasket);
         follower.getPose().setHeading(autonPoses.startPoseBasket.getHeading());
         ClawSubsystem.setAnglePosition(1);
-        ArmSubsystem.setPos(2,30);
+        ArmSubsystem.setPos(2,50);
 
 
         buildPaths();
